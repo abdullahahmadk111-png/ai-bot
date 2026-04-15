@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>My AI Chatbot</title>
+    <!-- CSS path relative to public folder -->
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<!-- Logo on top-left -->
+<img src="Hawk.png" id="page-logo" alt="Logo">
+
+<div id="chat-container">
+    <h2>My AI Chatbot</h2>
+    <div id="chat"></div>
+    <div id="input-area">
+        <input id="msg" placeholder="Type message..." />
+        <button onclick="send()">Send</button>
+    </div>
+</div>
+<script>
+async function send() {
+    const message = document.getElementById("msg").value;
+    if (!message) return;
+
+    const chatBox = document.getElementById("chat");
+
+    chatBox.innerHTML += `<p class="user"><b>You:</b> ${message}</p>`;
+    chatBox.scrollTop = chatBox.scrollHeight;
+
+    try {
+        const res = await fetch("/api/chat", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ message })
+        });
+
+        const data = await res.json();
+
+        if (data.reply) {
+            chatBox.innerHTML += `<p class="bot"><b>Bot:</b> ${data.reply}</p>`;
+        } else {
+            // 🔥 SHOW REAL ERROR
+            const errorMsg =
+                typeof data.error === "string"
+                    ? data.error
+                    : JSON.stringify(data.error);
+
+            chatBox.innerHTML += `<p class="bot"><b>Error:</b> ${errorMsg}</p>`;
+        }
+
+    } catch (err) {
+        chatBox.innerHTML += `<p class="bot"><b>Error:</b> ${err.message}</p>`;
+    }
+
+    chatBox.scrollTop = chatBox.scrollHeight;
+    document.getElementById("msg").value = "";
+}
+</script>
+</body>
+</html>

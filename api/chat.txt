@@ -1,0 +1,27 @@
+from flask import Flask, request, jsonify
+from flask_cors import CORS
+from openai import OpenAI
+
+app = Flask(__name__)
+CORS(app)
+
+api_key = "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"
+client = OpenAI(base_url="https://openrouter.ai/api/v1", api_key=api_key)
+
+@app.route("/chat", methods=["POST"])
+def chat():
+    data = request.json
+    user_message = data.get("message", "")
+    try:
+        response = client.chat.completions.create(
+            model="openrouter/free",
+            messages=[{"role": "user", "content": user_message}]
+        )
+        reply = response.choices[0].message.content
+        return jsonify({"reply": reply})
+    except Exception as e:
+        return jsonify({"error": str(e)})
+
+# <<< Make sure this is at the end >>>
+if __name__ == "__main__":
+    app.run(debug=True)  # will print logs and run server

@@ -1,0 +1,131 @@
+body {
+    font-family: Arial, sans-serif;
+    text-align: center;
+    margin: 0;
+    padding: 0;
+
+    /* Dark purple + black gradient only */
+    background: linear-gradient(-45deg,
+        #120629,  /* very dark purple */
+        #1a0a3f,  /* dark purple */
+        #000000,  /* black */
+        #1a0a3f   /* dark purplish-black */
+    );
+    background-size: 400% 400%;
+
+    /* Animate smoothly */
+    animation: darkGradientAnimation 25s ease infinite;
+}
+
+@keyframes darkGradientAnimation {
+    0% { background-position: 0% 50%; }
+    25% { background-position: 50% 50%; }
+    50% { background-position: 100% 50%; }
+    75% { background-position: 50% 50%; }
+    100% { background-position: 0% 50%; }
+}
+
+/* Chat header */
+#chat-container h2 {
+    margin-top: 0;
+}
+
+#chat-container {
+    max-width: 90%;
+    margin: 50px auto;
+    background: linear-gradient(to bottom, #141414, black);
+    border-radius: 10px;
+    box-shadow: 0px 4px 12px rgba(0,0,0,0.3);
+    padding: 20px;
+    width: 80%;
+    margin-top: 5%;
+    color: #fff; /* ensures default text is visible */
+    margin-top: 90px;
+}
+
+/* Chat box messages container */
+#chat {
+    height: 470px;
+    display: flex;
+    flex-direction: column; /* stack messages vertically */
+    gap: 10px; /* space between messages */
+    overflow-y: auto;
+    border: none; /* remove the thin frame */
+    border-radius: 10px;
+    padding: 10px;
+    text-align: left;
+    background: transparent; /* optional: make chat box fully blend with container */
+
+}
+/* Messages wrapper */
+#chat p {
+    padding: 8px 12px;
+    border-radius: 15px;
+    max-width: 80%; /* max width relative to chat box */
+    word-wrap: break-word; /* wrap long words */
+    margin: 0;
+}
+
+/* User messages */
+#chat p.user {
+    align-self: flex-end; /* push to right */
+    background: linear-gradient(to right, #42198C , #1C0B3D);
+    color: #D6D0D0;
+    text-align: right;
+}
+
+/* Bot messages */
+#chat p.bot {
+    align-self: flex-start; /* push to left */
+    background: linear-gradient(to right, #1C0B3D , #230344);
+    color: #fff;
+    text-align: left;
+}
+/* Input area */
+#input-area {
+    margin-top: 15px;
+    display: flex;
+    gap: 10px;
+    justify-content: center;
+}
+
+/* Input box */
+#msg {
+    width: 70%;
+    padding: 10px;
+    border-radius: 20px;
+    border: 1px solid #ccc;
+    outline: none;
+    background: #121212;
+    color: #808080;
+    border: solid 1px transparent;
+    width: 40%;
+    margin-bottom: 5px;
+}
+
+button {
+    padding: 10px 20px;
+    border-radius: 20px;
+    border: none;
+    background: #05126E; /* dark purple button */
+    color: #fff;
+    cursor: pointer;
+    transition: 0.2s;
+    margin-bottom: 5px;
+}
+button:hover {
+    background: #030B44;
+}
+
+
+#page-logo {
+    position: fixed;
+    top: 1px;
+    left: 1px;
+    width: 200px;
+    height: 70px;
+    border-radius: 50%;
+    object-fit: cover;
+    z-index: 1000;
+    filter: brightness(0) invert(1);
+}
