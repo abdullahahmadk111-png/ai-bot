@@ -1,61 +1,76 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>My AI Chatbot</title>
-    <!-- CSS path relative to public folder -->
-    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="/style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 </head>
 <body>
 
-<!-- Logo on top-left -->
-<img src="Hawk.png" id="page-logo" alt="Logo">
-
-<div id="chat-container">
-    <h2>My AI Chatbot</h2>
-    <div id="chat"></div>
-    <div id="input-area">
-        <input id="msg" placeholder="Type message..." />
-        <button onclick="send()">Send</button>
+<!-- Top Navigation Bar -->
+<nav class="top-bar">
+    <div class="top-bar-left">
+        <img src="/Hawk.png" id="page-logo" alt="Logo">
+        <span class="brand-name">My AI Chatbot</span>
     </div>
-</div>
-<script>
-async function send() {
-    const message = document.getElementById("msg").value;
-    if (!message) return;
+    <div class="top-bar-right">
+        <button class="icon-btn" id="clear-btn" title="Clear Chat">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <polyline points="3 6 5 6 21 6"></polyline>
+                <path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path>
+            </svg>
+        </button>
+    </div>
+</nav>
 
-    const chatBox = document.getElementById("chat");
+<!-- Main Chat Container -->
+<main id="chat-container">
+    <!-- Chat Messages -->
+    <div id="chat">
+        <!-- Welcome message -->
+        <div class="welcome-screen" id="welcome">
+            <div class="welcome-icon">
+                <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="url(#gradient)" stroke-width="1.5">
+                    <defs>
+                        <linearGradient id="gradient" x1="0%" y1="0%" x2="100%" y2="100%">
+                            <stop offset="0%" style="stop-color:#7c3aed"/>
+                            <stop offset="100%" style="stop-color:#a855f7"/>
+                        </linearGradient>
+                    </defs>
+                    <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path>
+                </svg>
+            </div>
+            <h1>How can I help you today?</h1>
+            <p>Ask me anything — I'm here to assist.</p>
+        </div>
+    </div>
 
-    chatBox.innerHTML += `<p class="user"><b>You:</b> ${message}</p>`;
-    chatBox.scrollTop = chatBox.scrollHeight;
+    <!-- Typing Indicator -->
+    <div class="typing-indicator" id="typing" style="display: none;">
+        <div class="typing-dot"></div>
+        <div class="typing-dot"></div>
+        <div class="typing-dot"></div>
+    </div>
 
-    try {
-        const res = await fetch("/api/chat", {
-            method: "POST",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({ message })
-        });
+    <!-- Input Area -->
+    <div id="input-area">
+        <div class="input-wrapper">
+            <textarea id="msg" placeholder="Type your message..." rows="1" autocomplete="off"></textarea>
+            <button id="send-btn" title="Send Message">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <line x1="22" y1="2" x2="11" y2="13"></line>
+                    <polygon points="22 2 15 22 11 13 2 9 22 2"></polygon>
+                </svg>
+            </button>
+        </div>
+        <span class="input-hint">Press Enter to send, Shift+Enter for new line</span>
+    </div>
+</main>
 
-        const data = await res.json();
-
-        if (data.reply) {
-            chatBox.innerHTML += `<p class="bot"><b>Bot:</b> ${data.reply}</p>`;
-        } else {
-            // 🔥 SHOW REAL ERROR
-            const errorMsg =
-                typeof data.error === "string"
-                    ? data.error
-                    : JSON.stringify(data.error);
-
-            chatBox.innerHTML += `<p class="bot"><b>Error:</b> ${errorMsg}</p>`;
-        }
-
-    } catch (err) {
-        chatBox.innerHTML += `<p class="bot"><b>Error:</b> ${err.message}</p>`;
-    }
-
-    chatBox.scrollTop = chatBox.scrollHeight;
-    document.getElementById("msg").value = "";
-}
-</script>
+<script src="/script.js"></script>
 </body>
 </html>
